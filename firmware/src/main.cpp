@@ -336,6 +336,13 @@ OpenHopSX1262 radio = new Module(BOARD.pin_lora_nss, BOARD.pin_lora_dio1,
 // defined above so call sites compile unchanged.
 OledDisplay oled;
 
+#if defined(OPENHOP_T096_BENCH) || defined(OPENHOP_V43_BENCH)
+// No TX occurs on boot; the host must explicitly request each packet.
+static RadioConfig currentConfig = {
+    .freq_hz = 917450000, .bandwidth_hz = 62500, .sf = 9, .cr = 5,
+    .power_dbm = -9, .syncword = 0x12, .preamble_len = 16
+};
+#else
 // ─── Default config: EU/UK (Narrow), Switzerland preset ──────
 static RadioConfig currentConfig = {
     .freq_hz      = 869618000,
@@ -346,6 +353,8 @@ static RadioConfig currentConfig = {
     .syncword     = 0x12,
     .preamble_len = 16
 };
+
+#endif
 
 static StatusResp  status        = {};
 // Hard-standby flag set by CMD_RADIO_STANDBY. While true, loop()
@@ -901,6 +910,13 @@ static bool parseSetWifi(const uint8_t* p, uint16_t len, WifiManager::Config& ou
 bool applyConfig(const RadioConfig& cfg) {
     // Invalidate before the first mutation: a partial apply must prohibit TX.
     radioTxReady = false;
+#if defined(OPENHOP_T096_BENCH) || defined(OPENHOP_V43_BENCH)
+    // Bench image deliberately restricts host-selected RF profiles.
+    if (!((cfg.freq_hz == 917450000 && cfg.sf == 9) ||
+          (cfg.freq_hz == 917550000 && cfg.sf == 7)) ||
+        cfg.bandwidth_hz != 62500 || cfg.cr != 5 ||
+        cfg.power_dbm != -9) return false;
+#endif
     int state = radio.standby();
     if (state != RADIOLIB_ERR_NONE) return false;
 
