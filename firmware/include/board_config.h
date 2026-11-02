@@ -306,7 +306,11 @@ extern const BoardConfig BOARD;
 #elif defined(BOARD_HELTEC_V42)
 #  include "boards/heltec_v42.h"
 #elif defined(BOARD_HELTEC_V43)
-#  include "boards/heltec_v43.h"
+#  if defined(OPENHOP_V43_BENCH)
+#    include "boards/heltec_v43_bench.h"
+#  else
+#    include "boards/heltec_v43.h"
+#  endif
 #elif defined(BOARD_IKOKA_STICK)
 #  include "boards/ikoka_stick.h"
 #elif defined(BOARD_LILYGO_T3S3)
@@ -317,6 +321,8 @@ extern const BoardConfig BOARD;
 #  include "boards/esp32_p4_nano.h"
 #elif defined(BOARD_ETHERMESH_1W)
 #  include "boards/ethermesh_1w.h"
+#elif defined(BOARD_HELTEC_T096)
+#  include "boards/heltec_t096.h"
 #elif defined(BOARD_HELTEC_T114)
 #  include "boards/heltec_t114.h"
 #elif defined(BOARD_HELTEC_TRACKER_V2)
