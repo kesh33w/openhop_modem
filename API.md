@@ -1,5 +1,7 @@
 # HTTP API
 
+This reference describes the inherited network-enabled modem targets. Kesh's `heltec_t096_bench` and `heltec_v43_bench` builds disable networking and do not expose this API. Use their [USB bench guide](README.md) and [wire protocol definitions](firmware/include/protocol.h) instead.
+
 This firmware exposes a small HTTP API alongside the web UI.
 
 All API routes:

@@ -1,4 +1,6 @@
-# Installation — step by step
+# General modem installation
+
+This guide covers the inherited modem targets. For Kesh's restricted USB builds, start with the [bench README](README.md). Use `heltec_t096_bench` or `heltec_v43_bench` rather than a general firmware image. Their network setup sections do not apply, and their allowed radio profiles differ from the general defaults.
 
 All commands assume you are in the `openhop_modem` repository root.
 
@@ -23,7 +25,7 @@ your board:
 | RAK3112 WisMesh | `rak3112_wismesh` | `rak3112-<mac3>.local` | Wi-Fi |
 | B&Q Consulting Station G2 | `station_g2` | `station-g2-<mac3>.local` | Wi-Fi |
 | BQ Voyage Station G3 | `station_g3` | `station-g3-<mac3>.local` | Wi-Fi |
-| WaveShare ESP32-P4-Nano (+ off-board E22) | `esp32_p4_nano` | `p4nano-<mac3>.local` | **Ethernet or Wi-Fi** (runtime auto-select; cable plugged → ETH, no link → WiFi fallback. Both at once is unstable with radio active — see README "Porting to another ESP32-P4 board") |
+| WaveShare ESP32-P4-Nano (+ off-board E22) | `esp32_p4_nano` | `p4nano-<mac3>.local` | **Ethernet or Wi-Fi** (runtime auto-select; cable plugged → ETH, no link → WiFi fallback. Both at once is unstable with radio active — see the general modem reference) |
 | MeshSmith EtherMesh-1W | `ethermesh_1w` | `ethermesh-1w-<mac3>.local` | **Ethernet** |
 | Heltec T114 | `heltec_t114` | n/a | none — USB-CDC + UART only |
 | RAK4631 USB | `rak4631_usb` | n/a | none — USB-CDC only |
@@ -221,8 +223,8 @@ policy, add `-DBOARD_MY_BOARD` to a new `[env:my_board]` block in
 `platformio.ini`, and a matching `#elif defined(BOARD_MY_BOARD)` arm in
 `board_config.h`. ESP32-P4 carriers have a few quirks (boot strap on
 GPIO35, RMII / Wi-Fi / radio interaction, LDO domain on high GPIOs)
-covered in the README's
-[Porting to another ESP32-P4 board](README.md#porting-to-another-esp32-p4-board)
+covered in the general modem reference,
+[Porting to another ESP32-P4 board](MODEM-REFERENCE.md#porting-to-another-esp32-p4-board)
 section.
 
 ## 2. Connect over USB (`modem_usb`)
